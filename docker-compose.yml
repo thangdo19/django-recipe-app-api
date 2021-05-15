@@ -1,0 +1,29 @@
+version: "3"
+
+services:
+    # Name of the service
+    app:
+        # Build section
+        build:
+            # Set the context to '.', which is our current directory
+            # that we're running Docker compose from
+            context: .
+        # Port configuration
+        ports:
+            # Belows, we map out project from 
+            # port 8000 on our host to port 8000 on our image
+            - "8000:8000"
+        # Volume allow us to get the updates that we made to our project
+        # into our Docker image in realtime. It means it maps of volume
+        # from our local machine here into our Docker container that will
+        # be running our application. This means that whenever you change
+        # a file or you change something in the project, it'll be automatically
+        # updated in the container and you don't need to restart Docker to get
+        # the changes into effect
+        volumes:
+            # Maps 'app' directory to our Docker image
+            - ./app:/app
+        # Command, which is used to run our application in our Docker container
+        # 0.0.0.0:8000: All the IP addresses that run on the Docker container on port 8000
+        command: >
+            sh -c "python manage.py runserver 0.0.0.0:8000"
