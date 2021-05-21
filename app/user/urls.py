@@ -3,6 +3,7 @@ from django.urls import path
 from user import views
 
 
+# Register namespace
 app_name = 'user'
 
 
