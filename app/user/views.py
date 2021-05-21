@@ -1,4 +1,4 @@
-from rest_framework import generics
+from rest_framework import generics, authentication, permissions
 # Because we are customizing 'username' field to 'email' field,
 # we must inherit from ObtainAuthToken to modify setting to
 # the class variables. If not, you can use ObtainAuthToken
@@ -20,3 +20,14 @@ class CreateTokenView(ObtainAuthToken):
     # Renderer classes: Render to view this
     # endpoint in the browser with the browsable API
     renderer_classes = api_settings.DEFAULT_RENDERER_CLASSES
+
+
+class ManageUserView(generics.RetrieveUpdateAPIView):
+    """ Manage the authenticated user"""
+    serializer_class = UserSerializer
+    authentication_classes = (authentication.TokenAuthentication,)
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def get_object(self):
+        """ Retrieve and return authenticated user"""
+        return self.request.user
